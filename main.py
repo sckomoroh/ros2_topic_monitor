@@ -1,3 +1,5 @@
+#!/bin/python
+
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from main_window import MainWindow
 import rclpy
