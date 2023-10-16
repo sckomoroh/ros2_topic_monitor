@@ -1,5 +1,5 @@
 from monitor_widget_ui import Ui_MonitorWidget
-from PyQt5.QtWidgets import QMenu
+from PyQt5.QtWidgets import QMenu, QWidget, QFileDialog
 from ros2_node import Ros2Node
 from PyQt5.QtCore import (
     QAbstractListModel,
@@ -119,7 +119,7 @@ class MonitorModel(QAbstractTableModel):
         return val
 
 
-class MonitorForm(Ui_MonitorWidget):
+class MonitorForm(Ui_MonitorWidget, QWidget):
     ros2_data_update = pyqtSignal(RosData)
     status_change = pyqtSignal(str)
 
@@ -136,6 +136,8 @@ class MonitorForm(Ui_MonitorWidget):
         self.table_topics_values.setColumnWidth(0, 400)
 
         self.button_add_topic.clicked.connect(self.__on_topic_add_clicked)
+        self.button_load_monitor.clicked.connect(self.__on_load_monitor_clicked)
+        self.button_save_monitor.clicked.connect(self.__on_save_monitor_clicked)
         self.ros2_data_update.connect(self.__on_ros2_update)
 
         self.edit_topic_name.returnPressed.connect(self.__on_topic_add_clicked)
@@ -151,14 +153,17 @@ class MonitorForm(Ui_MonitorWidget):
 
     def __on_topic_add_clicked(self):
         topic = self.edit_topic_name.text()
+        self.__add_monitor(topic)
+
+    def __add_monitor(self, topic):
         if not self.model_monitor.has_mointor_for(topic):
             if self.node.ros2_utils.check_field_appearence(topic):
-                    ros2_topic = topic.split(".")[0]
-                    _, topic_type = self.node.ros2_utils.get_node_type(ros2_topic)
-                    self.model_monitor.add_item(topic, topic_type)
-                    self.node.add_subscription(ros2_topic)
-                    self.status_change.emit(f"Start monitoring the '{topic}'")
-            
+                ros2_topic = topic.split(".")[0]
+                _, topic_type = self.node.ros2_utils.get_node_type(ros2_topic)
+                self.model_monitor.add_item(topic, topic_type)
+                self.node.add_subscription(ros2_topic)
+                self.status_change.emit(f"Start monitoring the '{topic}'")
+
 
     def __ros2_callback(self, msg, type):
         self.ros2_data_update.emit(RosData(msg, type))
@@ -188,7 +193,30 @@ class MonitorForm(Ui_MonitorWidget):
         if self.model_monitor.remove_topic(topic):
             ros2_topic_name = topic.split(".")[0]
             self.node.remove_subscription(ros2_topic_name)
-            
 
     def __ros2_status_callback(self, status):
         self.status_change.emit(status)
+
+    def __on_save_monitor_clicked(self):
+        options = QFileDialog.Options()
+        file_name, _ = QFileDialog.getSaveFileName(self, "Save File", "", "Config files (*.cfg)", options=options)
+        if file_name:
+            file_name += ".cfg"
+            with open(file_name, 'w') as file:
+                monitors_count = self.model_monitor.rowCount(None)
+                for row in range(monitors_count):
+                    index = self.model_monitor.createIndex(row, 0)
+                    monitor = self.model_monitor.data(index)
+                    file.write(f"{monitor}\n")
+
+    def __on_load_monitor_clicked(self):
+        options = QFileDialog.Options()
+        file_name, _ = QFileDialog.getOpenFileName(self, "Open File", "", "Config files (*.cfg)", options=options)
+        if file_name:
+            with open(file_name, 'r') as file:
+                while True:
+                    topic = file.readline().strip()
+                    if topic and len(topic) > 0:
+                        self.__add_monitor(topic)
+                    else:
+                        break

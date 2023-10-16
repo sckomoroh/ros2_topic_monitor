@@ -7,7 +7,7 @@ from structure_widget import StructureForm
 from topics_widget import TopicsWidget
 
 
-class MainWindow(Ui_MainWindow):
+class MainWindow(Ui_MainWindow, QtWidgets.QMainWindow):
     def __init__(self, parent, ros2_node, ros2_utils):
         super().__init__()
         self.setupUi(parent)

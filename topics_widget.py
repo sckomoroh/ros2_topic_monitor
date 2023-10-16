@@ -1,7 +1,7 @@
 from topics_widget_ui import Ui_TopicsWidget
 from ros2_node import Ros2Utils
 from PyQt5.QtCore import QAbstractListModel, Qt, pyqtSignal, QSortFilterProxyModel
-from PyQt5.QtWidgets import QMenu
+from PyQt5.QtWidgets import QMenu, QWidget
 
 
 class RunningNodesListModel(QAbstractListModel):
@@ -25,7 +25,7 @@ class RunningNodesListModel(QAbstractListModel):
         self.endResetModel()
 
 
-class TopicsWidget(Ui_TopicsWidget):
+class TopicsWidget(Ui_TopicsWidget, QWidget):
     analyze_request = pyqtSignal(str)
 
     def __init__(self, parent, ros2_utils: Ros2Utils):

@@ -11,7 +11,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_TopicsWidget(QtWidgets.QWidget):
+class Ui_TopicsWidget(object):
     def setupUi(self, TopicsWidget):
         TopicsWidget.setObjectName("TopicsWidget")
         TopicsWidget.resize(400, 300)

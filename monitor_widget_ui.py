@@ -11,10 +11,10 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_MonitorWidget(QtWidgets.QWidget):
+class Ui_MonitorWidget(object):
     def setupUi(self, MonitorWidget):
         MonitorWidget.setObjectName("MonitorWidget")
-        MonitorWidget.resize(424, 300)
+        MonitorWidget.resize(729, 300)
         self.verticalLayout = QtWidgets.QVBoxLayout(MonitorWidget)
         self.verticalLayout.setObjectName("verticalLayout")
         self.horizontalLayout = QtWidgets.QHBoxLayout()
@@ -25,6 +25,12 @@ class Ui_MonitorWidget(QtWidgets.QWidget):
         self.button_add_topic = QtWidgets.QPushButton(MonitorWidget)
         self.button_add_topic.setObjectName("button_add_topic")
         self.horizontalLayout.addWidget(self.button_add_topic)
+        self.button_save_monitor = QtWidgets.QPushButton(MonitorWidget)
+        self.button_save_monitor.setObjectName("button_save_monitor")
+        self.horizontalLayout.addWidget(self.button_save_monitor)
+        self.button_load_monitor = QtWidgets.QPushButton(MonitorWidget)
+        self.button_load_monitor.setObjectName("button_load_monitor")
+        self.horizontalLayout.addWidget(self.button_load_monitor)
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.table_topics_values = QtWidgets.QTableView(MonitorWidget)
         self.table_topics_values.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
@@ -41,3 +47,5 @@ class Ui_MonitorWidget(QtWidgets.QWidget):
         MonitorWidget.setWindowTitle(_translate("MonitorWidget", "Form"))
         self.edit_topic_name.setToolTip(_translate("MonitorWidget", "Topic name"))
         self.button_add_topic.setText(_translate("MonitorWidget", "Add topic"))
+        self.button_save_monitor.setText(_translate("MonitorWidget", "Save monitor"))
+        self.button_load_monitor.setText(_translate("MonitorWidget", "Load monitor"))

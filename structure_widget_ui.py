@@ -11,7 +11,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_StructureWidget(QtWidgets.QWidget):
+class Ui_StructureWidget(object):
     def setupUi(self, StructureWidget):
         StructureWidget.setObjectName("StructureWidget")
         StructureWidget.resize(452, 300)
@@ -28,6 +28,7 @@ class Ui_StructureWidget(QtWidgets.QWidget):
         self.verticalLayout.addLayout(self.horizontalLayout_2)
         self.tree_topic_fields = QtWidgets.QTreeView(StructureWidget)
         self.tree_topic_fields.setObjectName("tree_topic_fields")
+        self.tree_topic_fields.header().setDefaultSectionSize(300)
         self.verticalLayout.addWidget(self.tree_topic_fields)
 
         self.retranslateUi(StructureWidget)

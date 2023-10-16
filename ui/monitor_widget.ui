@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>424</width>
+    <width>729</width>
     <height>300</height>
    </rect>
   </property>
@@ -27,6 +27,20 @@
       <widget class="QPushButton" name="button_add_topic">
        <property name="text">
         <string>Add topic</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="button_save_monitor">
+       <property name="text">
+        <string>Save monitor</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="button_load_monitor">
+       <property name="text">
+        <string>Load monitor</string>
        </property>
       </widget>
      </item>

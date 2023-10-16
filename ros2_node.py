@@ -83,7 +83,11 @@ class Ros2Utils:
         fields = dummy_msg.get_fields_and_field_types()
         for field, field_type in fields.items():
             sub_topic_struct = TopicStructure(field, field_type)
-            index = field_type.find("/")  # Only classes contains this symbol
+            temp_type = self.__check_template(field_type)
+            if temp_type:
+                field_type = temp_type
+            index = field_type.find("/")
+              # Only classes contains this symbol
             if index > 0:
                 field_property_type = utils.get_topic_class(field_type)
                 self.analyze_type(field_property_type, sub_topic_struct)
@@ -92,6 +96,14 @@ class Ros2Utils:
             sub_topic_struct.parent = topic_struct
 
         return topic_struct
+    
+    def __check_template(self, type:str):
+        i1 = type.find("<")
+        i2 = type.find(">")
+
+        if i1 != -1 and i2 != -1:
+            new_type = type[i1+1:i2]
+            return new_type
 
 
 class Ros2Node(Node):

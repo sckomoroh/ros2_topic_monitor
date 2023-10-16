@@ -1,6 +1,6 @@
 from structure_widget_ui import Ui_StructureWidget
 from PyQt5.QtCore import Qt, QAbstractItemModel, QModelIndex, pyqtSignal
-from PyQt5.QtWidgets import QMenu
+from PyQt5.QtWidgets import QMenu, QWidget
 
 from ros2_node import Ros2Utils, TopicStructure
 
@@ -78,7 +78,7 @@ class TopicStructureModel(QAbstractItemModel):
         return self.createIndex(parentItem.row(), 0, parentItem)
 
 
-class StructureForm(Ui_StructureWidget):
+class StructureForm(Ui_StructureWidget, QWidget):
     monitor_request = pyqtSignal(str)
     status_change = pyqtSignal(str)
 
